@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>PharmaVillage - Provider Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Header -->
+<div class="content-wrapper">
+    <div class="header-container">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='images/PharmaVillage.png') }}" alt="PharmaVillage Logo">
+                </div>
+                <div class="navbar">
+                    <div class="nav-item"><a href="/">Home</a></div>
+                    <div class="nav-item active"><a href="/provider">For Providers</a></div>
+                    <div class="nav-item"><a href="/drugs">For Drugs</a></div>
+                    <div class="nav-item"><a href="/contact">Contact Doctor</a></div>
+                    <div class="nav-item"><a href="/covid">Covid-19</a></div>
+                    <div class="nav-item"><a href="/mission">Our Mission</a></div>
+                    <div class="nav-item"><a href="/chatbot">Chatbot</a></div>
+                    <div class="nav-item"><a href="/login">Login</a></div>
+                    <div class="nav-item"><a href="/signup">Register</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- Loading overlay -->
+  <div class="loading-overlay">
+    <div class="text-center">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-3">Submitting your product...</p>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div
+    class="toast"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    data-bs-autohide="true"
+    data-bs-delay="5000"
+  >
+    <div class="toast-header">
+      <strong class="me-auto">PharmaVillage</strong>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="toast-body"></div>
+  </div>
+
+  <div class="container my-5">
+    <div class="text-center mb-4">
+      <h1>For Providers</h1>
+      <h2 class="text-muted">
+        Submit your products through our secure portal below.
+      </h2>
+    </div>
+
+    <div class="row">
+      <!-- Form column -->
+      <div class="col-lg-8">
+        <div class="form-container">
+          <h3 class="mb-4">Product Submission Form</h3>
+          <p class="text-muted mb-4">
+            Please fill out all required fields to submit your pharmaceutical
+            product for review.
+          </p>
+
+          <form id="providerForm">
+            <!-- Provider Information -->
+            <div class="form-section">
+              <h4 class="section-title">Provider Information</h4>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="providerEmail" class="form-label required">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="providerEmail"
+                    required
+                    pattern="^[^@]+@admin\.com$"
+                    title="You must use an @admin.com address"
+                  />
+
+                </div>
+                <div class="col-md-6">
+                  <label for="providerPhone" class="form-label required">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="providerPhone"
+                    required
+                  >
+                </div>
+                <div class="form-check mt-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="certification"
+                    required
+                  >
+                  <label class="form-check-label" for="certification">
+                    I understand that I can only add a product with an Admin account
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product Information -->
+            <div class="form-section">
+              <h4 class="section-title">Product Information</h4>
+
+              <div class="row mb-3">
+                <div class="col-md-8">
+                  <label for="productName" class="form-label required">
+                    Product Name
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productName"
+                    placeholder="e.g., Amoxicillin 500mg Capsules"
+                    required
+                  >
+                </div>
+                <div class="col-md-4">
+                  <label for="productCategory" class="form-label required">
+                    Category
+                  </label>
+                  <select
+                    class="form-select"
+                    id="productCategory"
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    <option value="antibiotics">Antibiotics</option>
+                    <option value="pain-relief">Pain Relief</option>
+                    <option value="vitamins">Vitamins & Supplements</option>
+                    <option value="chronic">Chronic Conditions</option>
+                    <option value="skin-care">Skin Care</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="activeIngredient" class="form-label required">
+                    Active Ingredient
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="activeIngredient"
+                    required
+                  >
+                </div>
+                <div class="col-md-3">
+                  <label for="dosage" class="form-label required">Dosage</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="dosage"
+                    placeholder="e.g., 500mg"
+                    required
+                  >
+                </div>
+                <div class="col-md-3">
+                  <label for="dosageForm" class="form-label required">Form</label>
+                  <select
+                    class="form-select"
+                    id="dosageForm"
+                    required
+                  >
+                    <option value="">Select Form</option>
+                    <option value="tablet">Tablet</option>
+                    <option value="capsule">Capsule</option>
+                    <option value="liquid">Liquid</option>
+                    <option value="injection">Injection</option>
+                    <option value="cream">Cream</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="quantity" class="form-label required">
+                    Package Quantity
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="quantity"
+                    min="1"
+                    required
+                  >
+                </div>
+                <div class="col-md-4">
+                  <label for="price" class="form-label required">Price (VND)</label>
+                  <div class="input-group">
+                    <span class="input-group-text">₫</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="price"
+                      step="1"
+                      min="0"
+                      required
+                    >
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label for="expiryDate" class="form-label required">
+                    Expiry Date
+                  </label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="expiryDate"
+                    required
+                  >
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label required">
+                  Product Description
+                </label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  rows="4"
+                  placeholder="Include key benefits, usage instructions, and precautions"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label for="productImage" class="form-label">Product Image</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="productImage"
+                  accept="image/*"
+                >
+                <div class="form-text">
+                  Upload a clear image of the product packaging (max 5MB)
+                </div>
+              </div>
+            </div>
+
+            <!-- Certification & Terms -->
+            <div class="form-section">
+              <h4 class="section-title">Certification</h4>
+              <div class="form-check mb-3">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="providerCertification"
+                  required
+                >
+                <label class="form-check-label" for="providerCertification">
+                  I certify that I am a licensed pharmaceutical provider and that all
+                  information provided is accurate and complete.
+                </label>
+              </div>
+              <div class="form-check mb-3">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="terms"
+                  required
+                >
+                <label class="form-check-label" for="terms">
+                  I agree to PharmaVillage’s
+                  <a href="#" class="text-primary">Terms of Service</a> and
+                  <a href="#" class="text-primary">Privacy Policy</a>.
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-3">
+              Submit Product
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sidebar column -->
+      <div class="col-lg-4">
+        <div class="info-card mb-4">
+          <h5>Submission Guidelines</h5>
+          <ul>
+            <li>All products must be properly licensed and approved by relevant authorities</li>
+            <li>Provide complete and accurate product information</li>
+            <li>Ensure all submitted images are clear and professional</li>
+            <li>Products must have at least 6 months until expiration</li>
+            <li>Allow 3–5 business days for product review and approval</li>
+          </ul>
+        </div>
+
+        <h4 class="mb-4">Benefits for Providers</h4>
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-12">
+            <div class="feature-card">
+              <div class="feature-icon bg-light rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3">
+                <i class="fas fa-users fa-2x text-primary"></i>
+              </div>
+              <h5>Wider Audience</h5>
+              <p>Reach thousands of customers across Vietnam</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-12">
+            <div class="feature-card">
+              <div class="feature-icon bg-light rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3">
+                <i class="fas fa-chart-line fa-2x text-primary"></i>
+              </div>
+              <h5>Sales Growth</h5>
+              <p>Increase your sales with our marketing support</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-12">
+            <div class="feature-card">
+              <div class="feature-icon bg-light rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3">
+                <i class="fas fa-shield-alt fa-2x text-primary"></i>
+              </div>
+              <h5>Secure Platform</h5>
+              <p>Safe and reliable transaction processing</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="footer-logo">
+                        <img src="{{ url_for('static', filename='images/PharmaVillage.png') }}" alt="PharmaVillage Logo">
+                    </div>
+                    <p>Your trusted partner in pharmaceutical distribution, connecting providers with patients across Vietnam.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/provider">For Providers</a></li>
+                        <li><a href="/drugs">For Drugs</a></li>
+                        <li><a href="/contact">Contact Doctor</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <p class="contact-info"><i class="fas fa-envelope"></i> support@pharmavillage.com</p>
+                    <p class="contact-info"><i class="fas fa-phone"></i> +84 123 456 789</p>
+                    <p class="contact-info"><i class="fas fa-map-marker-alt"></i> 123 Medical Avenue, Health District, Vietnam</p>
+                </div>
+            </div>
+            <div class="copyright text-center">
+                PharmaVillage™ © 2024. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  <script src="{{ url_for('static', filename='firebase-provider.js') }}"></script>
+</body>
+</html>
